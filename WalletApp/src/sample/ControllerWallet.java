@@ -12,6 +12,7 @@ public class ControllerWallet extends PersonalizedController {
 
 
     Settings settings;
+    File publicKey, privateKey;
     //Overall
     @FXML Label labelUsername;
     @FXML Button buttonLogout;
@@ -48,13 +49,13 @@ public class ControllerWallet extends PersonalizedController {
 
     public void button_publicKey(ActionEvent event) {
         File newPublicKey = (new FileChooser().showOpenDialog(buttonPublicKey.getScene().getWindow()));
-        settings.setPublicKey(newPublicKey);
+        publicKey = newPublicKey;
         labelPublicKey.setText(newPublicKey.getAbsolutePath());
     }
 
     public void button_privateKey(ActionEvent event) {
         File newPrivateKey = (new FileChooser().showOpenDialog(buttonPrivateKey.getScene().getWindow()));
-        settings.setPrivateKey(newPrivateKey);
+        privateKey = newPrivateKey;
         labelPrivateKey.setText(newPrivateKey.getAbsolutePath());
     }
 
@@ -64,7 +65,16 @@ public class ControllerWallet extends PersonalizedController {
             return;
         }
         labelIncorrectPasswordSettings.setVisible(false);
-        //przetwarzaj dalej...
+        settings.setUsername(fieldUsernameSettings.getText());
+        if(publicKey!=null) {
+            settings.setPublicKey(publicKey);
+        }
+        if(privateKey!=null) {
+            settings.setPrivateKey(privateKey);
+        }
+        settings.setDig(radioDig.isSelected());
+        settings.export();
+        labelUsername.setText(settings.getUsername());
     }
 
     public void button_logout(ActionEvent event) {
