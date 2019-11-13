@@ -37,6 +37,7 @@ public class ControllerWallet extends PersonalizedController {
     public void personalize(Settings settings){
         this.settings = settings;
         labelUsername.setText(settings.getUsername());
+        fieldUsernameSettings.setText(settings.getUsername());
         labelPublicKey.setText(settings.getPublicKey().getAbsolutePath());
         labelPrivateKey.setText(settings.getPrivateKey().getAbsolutePath());
     }

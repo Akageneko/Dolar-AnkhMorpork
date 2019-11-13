@@ -30,6 +30,7 @@ public class ControllerSignUp extends PersonalizedController{
     @FXML private Label labelUsernameEmpty;
 
     private File publicKey, privateKey;
+    private Settings settings;
 
     public void button_PublicKey(ActionEvent event) {
         publicKey = (new FileChooser()).showOpenDialog(buttonPublicKey.getScene().getWindow());
@@ -64,26 +65,24 @@ public class ControllerSignUp extends PersonalizedController{
         String workingDir = (new File(getClass().getResource("Main.class").getPath())).toPath().getParent().getParent().toString();
 
         try {
+            settings = new Settings();
             //preparing login file
             File login_file = new File(workingDir+"/config/id.config");
             login_file.createNewFile();
-            PrintWriter toLogin = new PrintWriter(login_file);
-            toLogin.println("username:"+fieldUsername.getText());
+            settings.setUsername(fieldUsername.getText());
             //hashing password
             String hp = Main.hashPassword(fieldPassword1.getText());
-            toLogin.println("password:"+hp);
-            toLogin.close();
+            settings.setHashedPassword(hp);
 
             //preparing wallet's properties
             File props_file = new File(workingDir+"/config/props.config");
             props_file.createNewFile();
-            PrintWriter toProps = new PrintWriter(props_file);
-            toProps.println("public-key:"+publicKey.getAbsolutePath());
-            toProps.println("private-key:"+privateKey.getAbsolutePath());
-            toProps.println("dig:Y");
-            toProps.close();
+            settings.setPublicKey(publicKey);
+            settings.setPrivateKey(privateKey);
+            settings.setDig(true);
 
-            Main.settings = new Settings();
+            Main.settings = this.settings;
+            settings.export();
             Main.setView("login");
         }
         catch(Exception exception){

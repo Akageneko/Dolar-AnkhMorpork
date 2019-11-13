@@ -7,15 +7,7 @@ public class Settings {
      private boolean dig;
      private File publicKey, privateKey;
 
-     public Settings() throws IOException {
-         load();
-     }
-
-     public void reload() throws IOException {
-         load();
-     }
-
-     private void load() throws IOException {
+     public void load() throws IOException {
          String workingDir = (new File(getClass().getResource("Main.class").getPath())).toPath().getParent().getParent().toString();
          // get login credentials
          File login_file = new File(workingDir+"/config/id.config");
@@ -33,6 +25,36 @@ public class Settings {
          }
          else{
              dig = false;
+         }
+     }
+
+     public void export(){
+         String workingDir = (new File(getClass().getResource("Main.class").getPath())).toPath().getParent().getParent().toString();
+         try {
+             //preparing login file
+             File login_file = new File(workingDir+"/config/id.config");
+             PrintWriter toLogin = new PrintWriter(login_file);
+             toLogin.println("username:"+username);
+             //hashing password
+             toLogin.println("password:"+hashedPassword);
+             toLogin.close();
+
+             //preparing wallet's properties
+             File props_file = new File(workingDir+"/config/props.config");
+             PrintWriter toProps = new PrintWriter(props_file);
+             toProps.println("public-key:"+publicKey.getAbsolutePath());
+             toProps.println("private-key:"+privateKey.getAbsolutePath());
+             if(isDig()) {
+                 toProps.println("dig:Y");
+             }
+             else{
+                 toProps.println("dig:N");
+             }
+             toProps.close();
+         }
+         catch(Exception exception){
+             exception.printStackTrace();
+             //TODO: handle that better
          }
      }
 

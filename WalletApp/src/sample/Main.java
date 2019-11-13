@@ -47,6 +47,7 @@ public class Main extends Application {
         }
         else{
             settings = new Settings();
+            settings.load();
             setView("login");
         }
         primaryStage.setScene(new Scene(root, 800, 400));
