@@ -2,18 +2,67 @@
 // Created by Matai on 22.10.2019.
 //
 
-#include "Validator.h"
+#include "GeneratorConector.h"
 
-bool Validator::Validate(std::string block, int number_of_zeros) {
-    std::string hash = sha256(block);
+
+
+std::string Generator::Insert_Nonce(std::string block, unsigned int nonce) {
+    // Find first occurrence of '<NONCE>{'
+    size_t found = block.find("<NONCE>{");
+    std::string noncess = std::to_string(nonce);
+    while (noncess.length()<9)
+    {
+        noncess = "0"+noncess;
+    }
+
+    if (found != std::string::npos){
+        found =+8;
+        if(block.find("<NONCE>{}") != std::string::npos){
+            block.insert(found, noncess);
+        }else{
+            block.replace(found,9, noncess);
+        }
+    }
+    return block;
+}
+
+
+bool Generator::Check_Hash(std::string hash, int number_of_zeros) {
     for(int i = 0; i<number_of_zeros ; i++){
         if(hash[i] != '0') return false;
     }
     return true;
-
 }
 
-//---------------------------------------------SHA
+unsigned int Generator::Mine(std::string block, int number_of_zeros) {
+
+    std::mt19937 gen(time(nullptr) );
+    std::uniform_int_distribution<unsigned int> distribution(0, UINT32_MAX);
+    
+    //generating a random integer:
+    unsigned int  nonce;
+    std::string sha_hash;
+    do{
+        nonce = distribution(gen);
+        block = Insert_Nonce(block, nonce);
+        sha_hash = sha256(block);
+    }while(!Check_Hash(sha_hash, number_of_zeros));
+
+
+    return nonce;
+}
+
+//------------------------------------------DO DLL------------------------
+
+JNIEXPORT jlong JNICALL Java_GeneratorConector_Mine
+  (JNIEnv *env, jobject thisobj, jstring block, jint number_of_zeros)
+{
+    std::string blockc(env->GetStringUTFChars(block, NULL));
+    Generator gen;
+    return gen.Mine(blockc , (int)number_of_zeros);
+}
+
+//--------------------------------------------SHA-------------------------
 const unsigned int SHA256::sha256_k[64] = //UL = uint32
         {0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5,
          0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
@@ -140,3 +189,4 @@ std::string sha256(std::string input) {
         sprintf(buf + i * 2, "%02x", digest[i]);
     return std::string(buf);
 }
+

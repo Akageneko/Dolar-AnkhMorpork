@@ -2,54 +2,11 @@
 // Created by Matai on 22.10.2019.
 //
 
-#include "Generator.h"
+#include "ValidatorConector.h"
+//--------------------------------------SHA256----------------
 
-std::string Generator::Insert_Nonce(std::string block, unsigned int nonce) {
-    // Find first occurrence of '<NONCE>{'
-    size_t found = block.find("<NONCE>{");
-    size_t prev_len;
-    if(nonce-1 < 0) {
-        prev_len = 1;
-    }else{
-        prev_len = std::to_string(nonce).length();
-    }
-    if (found != std::string::npos){
-        found =+8;
-        if(block.find("<NONCE>{}") == std::string::npos){
-            block.insert(found, std::to_string(nonce));
-        }else{
-            block.replace(found,prev_len,  std::to_string(nonce));
-        }
-    }
-    return block;
-
-}
-
-bool Generator::Check_Hash(std::string hash, int number_of_zeros) {
-    for(int i = 0; i<number_of_zeros ; i++){
-        if(hash[i] != '0') return false;
-    }
-    return true;
-}
-
-unsigned int Generator::Mine(std::string block, int number_of_zeros) {
-
-    std::mt19937 gen(time(nullptr) );
-    std::uniform_int_distribution<unsigned int> distribution(0, UINT32_MAX);
-
-    //generating a random integer:
-    unsigned int  nonce;
-    std::string sha_hash;
-    do{
-        nonce = distribution(gen);
-        block = Insert_Nonce(block, nonce);
-        sha_hash = sha256(block);
-    }while(Check_Hash(sha_hash, number_of_zeros));
-
-
-    return nonce;
-}
-//--------------------------------------------SHA-------------------------
+//Inicjacja tablicy stałych rund
+//(Pierwsze 32 bity ułamkowych części  pierwiastka sześciennego pierwszych 64 liczb pierwszych 2 .. 311)
 const unsigned int SHA256::sha256_k[64] = //UL = uint32
         {0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5,
          0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
@@ -175,5 +132,25 @@ std::string sha256(std::string input) {
     for (int i = 0; i < SHA256::DIGEST_SIZE; i++)
         sprintf(buf + i * 2, "%02x", digest[i]);
     return std::string(buf);
+}
+
+//-------------------------z validator--------------
+
+bool Validator::Validate(std::string block, int number_of_zeros) {
+    std::string hash = sha256(block);
+    for(int i = 0; i<number_of_zeros ; i++){
+        if(hash[i] != '0') return false;
+    }
+    return true;
+
+}
+
+// ------------------------Faktyczna funkcja -----------
+JNIEXPORT jboolean JNICALL Java_ValidatorConector_Validate
+  (JNIEnv *env, jobject thisobj, jstring block, jint number_of_zeros)
+{
+    std::string blockc(env->GetStringUTFChars(block, NULL));
+    Validator valida;
+    return valida.Validate(blockc , (int)number_of_zeros);
 }
 
