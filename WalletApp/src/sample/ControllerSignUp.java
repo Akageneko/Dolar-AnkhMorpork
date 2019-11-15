@@ -32,6 +32,18 @@ public class ControllerSignUp extends PersonalizedController{
     private File publicKey, privateKey;
     private Settings settings;
 
+    @Override
+    public void clear() {
+        labelPasswordEmpty.setVisible(false);
+        labelUsernameEmpty.setVisible(false);
+        labelPasswordsDifferent.setVisible(false);
+        labelPublicKey.setText("Nie wybrano pliku.");
+        labelPrivateKey.setText("Nie wybrano pliku");
+        fieldUsername.clear();
+        fieldPassword2.clear();
+        fieldPassword1.clear();
+    }
+
     public void button_PublicKey(ActionEvent event) {
         publicKey = (new FileChooser()).showOpenDialog(buttonPublicKey.getScene().getWindow());
         labelPublicKey.setText(publicKey.getPath());

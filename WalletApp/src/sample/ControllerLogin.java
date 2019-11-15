@@ -21,6 +21,12 @@ public class ControllerLogin extends PersonalizedController {
         this.settings = settings;
     }
 
+    @Override
+    public void clear() {
+        fieldPassword.clear();
+        labelPasswordIncorrect.setVisible(false);
+    }
+
     public void button_signIn(ActionEvent event) throws NoSuchAlgorithmException {
         if(Main.hashPassword(fieldPassword.getText()).equals(settings.getHashedPassword())){
             Main.setView("wallet");

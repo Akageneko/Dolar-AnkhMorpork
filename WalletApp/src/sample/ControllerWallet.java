@@ -22,7 +22,7 @@ public class ControllerWallet extends PersonalizedController {
 
     //Tab "Nowa transakcja"
     @FXML TextField fieldReceiver,fieldAmount;
-    @FXML Label labelNotEnoughMoney;
+    @FXML Label labelNotEnoughMoney, labelIncorrectPasswordTransaction;
     @FXML PasswordField fieldPasswordTransaction;
     @FXML Button buttonConfirmTransaction;
 
@@ -41,10 +41,49 @@ public class ControllerWallet extends PersonalizedController {
         fieldUsernameSettings.setText(settings.getUsername());
         labelPublicKey.setText(settings.getPublicKey().getAbsolutePath());
         labelPrivateKey.setText(settings.getPrivateKey().getAbsolutePath());
+        labelWalletAddress.setText(settings.getPublicKeyString());
+        labelMoney.setText(Main.refreshMoneyLabel());
+        if(settings.isDig()){
+            labelDiggingActive.setText("TAK");
+        }
+        else{
+            labelDiggingActive.setText("NIE");
+        }
+    }
+
+    @Override
+    public void clear() {
+        labelNotEnoughMoney.setVisible(false);
+        labelIncorrectPasswordTransaction.setVisible(false);
+        labelIncorrectPasswordSettings.setVisible(false);
+        fieldPasswordSettings.clear();
+        fieldReceiver.clear();
+        fieldAmount.clear();
+        fieldPasswordTransaction.clear();
     }
 
     public void button_confirmTransaction(ActionEvent event) throws NoSuchAlgorithmException {
-
+        if(!settings.getHashedPassword().equals(Main.hashPassword(fieldPasswordTransaction.getText()))) {
+            //set label that doesnt exist yet
+            labelIncorrectPasswordTransaction.setVisible(true);
+            return;
+        }
+        labelIncorrectPasswordTransaction.setVisible(false);
+        if(Main.addTransactionToList(fieldReceiver.getText(),fieldAmount.getText())){
+            labelNotEnoughMoney.setVisible(false);
+            //pokaż okno dialogowe, że się udało
+            fieldAmount.setText("");
+            fieldReceiver.setText("");
+            labelMoney.setText(Main.refreshMoneyLabel());
+            Alert info = new Alert(Alert.AlertType.INFORMATION);
+            info.setTitle("Trzos na Dolary");
+            info.setHeaderText("Transakcję przekazano do potwierdzenia.");
+            info.show();
+        }
+        else{
+            labelNotEnoughMoney.setVisible(true);
+        }
+        fieldPasswordTransaction.clear();
     }
 
     public void button_publicKey(ActionEvent event) {
@@ -75,6 +114,11 @@ public class ControllerWallet extends PersonalizedController {
         settings.setDig(radioDig.isSelected());
         settings.export();
         labelUsername.setText(settings.getUsername());
+        fieldPasswordSettings.clear();
+        Alert info = new Alert(Alert.AlertType.INFORMATION);
+        info.setTitle("Trzos na Dolary");
+        info.setHeaderText("Ustawienia zostały zmienione");
+        info.show();
     }
 
     public void button_logout(ActionEvent event) {

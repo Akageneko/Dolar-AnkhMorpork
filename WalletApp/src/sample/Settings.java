@@ -6,6 +6,8 @@ public class Settings {
      private String username, hashedPassword;
      private boolean dig;
      private File publicKey, privateKey;
+     //conveniece for not reading the public key everytime
+    private String publicKeyString;
 
      public void load() throws IOException {
          String workingDir = (new File(getClass().getResource("Main.class").getPath())).toPath().getParent().getParent().toString();
@@ -26,9 +28,14 @@ public class Settings {
          else{
              dig = false;
          }
+         publicKeyString = getFromPublicKey(publicKey);
      }
 
-     public void export(){
+    private String getFromPublicKey(File publicKey) {
+         return "aga";
+    }
+
+    public void export(){
          String workingDir = (new File(getClass().getResource("Main.class").getPath())).toPath().getParent().getParent().toString();
          try {
              //preparing login file
@@ -100,5 +107,9 @@ public class Settings {
 
     public void setPrivateKey(File privateKey) {
         this.privateKey = privateKey;
+    }
+
+    public String getPublicKeyString() {
+        return publicKeyString;
     }
 }

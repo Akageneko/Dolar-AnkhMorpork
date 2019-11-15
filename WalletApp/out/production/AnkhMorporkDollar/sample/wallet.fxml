@@ -73,6 +73,7 @@
                               <RowConstraints maxHeight="48.0" minHeight="10.0" prefHeight="48.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
                               <Label text="Odbiorca transakcji:" GridPane.halignment="RIGHT" />
@@ -86,7 +87,12 @@
                               <PasswordField fx:id="fieldPasswordTransaction" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                               <TextField fx:id="fieldReceiver" GridPane.columnIndex="1" />
                               <TextField fx:id="fieldAmount" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                            <Button fx:id="buttonConfirmTransaction" mnemonicParsing="false" onAction="#button_confirmTransaction" text="Potwierdź" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
+                            <Button fx:id="buttonConfirmTransaction" mnemonicParsing="false" onAction="#button_confirmTransaction" text="Potwierdź" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
+                              <Label fx:id="labelIncorrectPasswordTransaction" text="Nieprawidłowe hasło!" textFill="#b20101" textOverrun="CENTER_ELLIPSIS" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                 <font>
+                                    <Font size="11.0" />
+                                 </font>
+                              </Label>
                            </children>
                            <padding>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -119,8 +125,8 @@
                               <TextField fx:id="fieldUsernameSettings" GridPane.columnIndex="1" />
                               <Button fx:id="buttonPublicKey" mnemonicParsing="false" onAction="#button_publicKey" text="Wybierz..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <Button fx:id="buttonPrivateKey" mnemonicParsing="false" onAction="#button_privateKey" text="Wybierz..." GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <Label fx:id="labelPublicKey" text="Nie wybrano pliku" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-                              <Label fx:id="labelPrivateKey" text="Nie wybrano pliku" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                              <Label fx:id="labelPublicKey" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="16.0" prefWidth="216.0" text="Nie wybrano pliku" textAlignment="RIGHT" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                              <Label fx:id="labelPrivateKey" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="16.0" prefWidth="214.0" text="Nie wybrano pliku" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
                               <Label text="Kop:" GridPane.rowIndex="3" />
                               <RadioButton fx:id="radioDig" mnemonicParsing="false" selected="true" text="tak / nie" textAlignment="RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                               <Label text="Wpisz hasło, żeby potwierdzić zmianę ustawień:" textAlignment="RIGHT" wrapText="true" GridPane.rowIndex="4" GridPane.valignment="TOP" />

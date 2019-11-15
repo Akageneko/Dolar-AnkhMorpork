@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -22,9 +23,12 @@ public class Main extends Application {
     static AnchorPane root;
     static HashMap<String, GridPane> views = new HashMap<>();
     static HashMap<String, PersonalizedController> controllers = new HashMap<>();
+    static String currentView;
     static Settings settings;
+    static Economy economy;
 
     public static void setView(String view) {
+        controllers.get(currentView).clear();
         root.getChildren().clear();
         root.getChildren().add(views.get(view));
         controllers.get(view).personalize(settings);
@@ -35,6 +39,22 @@ public class Main extends Application {
         app.close();
     }
 
+    public static boolean addTransactionToList(String receiver, String amountInString) {
+        try {
+            double amount = Double.parseDouble(amountInString);
+            return economy.addTransaction(receiver,amount);
+        }
+        catch (NumberFormatException e){
+            return false;
+        }
+
+    }
+
+    public static String refreshMoneyLabel() {
+        Double balance = economy.balance;
+        return balance.toString();
+    }
+
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -42,12 +62,14 @@ public class Main extends Application {
         String[] viewnames = new String[]{"first_greeting","sign_up","login","wallet"};
         loadGivenViews(viewnames);
         primaryStage.setTitle("Trzos na Dolary");
+        currentView = "login";
         if(newUser()){
             setView("first_greeting");
         }
         else{
             settings = new Settings();
             settings.load();
+            economy = new Economy(settings);
             setView("login");
         }
         primaryStage.setScene(new Scene(root, 800, 400));
