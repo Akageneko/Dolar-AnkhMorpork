@@ -46,10 +46,9 @@ public class DollarNetwork {
     }
 
 
-    public static class NewBlockSender implements Runnable {
+    public static class NewBlockListener implements Runnable {
         public void run() {
-            //Otwarcie gniazda z okreslonym portem
-            DatagramSocket datagramSocket = new DatagramSocket(Config.PORT);
+            DatagramSocket datagramSocket = new DatagramSocket(1001);
 
             byte[] byteResponse = "OK".getBytes("utf8");
 
@@ -77,7 +76,7 @@ public class DollarNetwork {
         }
     }
 
-    public static class NewBlockListener implements Runnable {
+    public static class NewBlockSender implements Runnable {
         public void run() {
             String message = "tekst";
             InetAddress serverAddress = InetAddress.getByName("1.1.1.1");
