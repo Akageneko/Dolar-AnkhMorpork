@@ -5,18 +5,21 @@ public class Transaction {
     private String senderKey;
     private String receiverKey;
     private double amount;
+    private String signature;
 
-    public Transaction(String sender, String receiver, double amount){
+    public Transaction(String sender, String receiver, double amount, String signat){
         this.senderKey = sender;
         this.receiverKey = receiver;
         this.amount = amount;
+        this.signature = signat;
     }
 
     public String toString(){
         String json = "{";
         json += "\"sender\":"+"\""+senderKey+"\",";
         json += "\"receiver\":"+"\""+receiverKey+"\",";
-        json += "\"amount\":"+amount+"}";
+        json += "\"amount\":"+amount+",";
+        json += "\"signature\":"+"\""+signature+"\"}";
         System.out.println(json);
         return json;
     }
@@ -43,5 +46,13 @@ public class Transaction {
 
     public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+    public void setSignature(String sig){
+      this.signature = sig;
+    }
+
+    public String getSignature(){
+      return this.signature;
     }
 }

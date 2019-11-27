@@ -27,6 +27,7 @@ public class Main extends Application {
     static Settings settings;
     static Economy economy;
 
+
     public static void setView(String view) {
         controllers.get(currentView).clear();
         root.getChildren().clear();
