@@ -11,6 +11,7 @@ public class NetworkContainer {
 
     ArrayList<String> inList = new ArrayList<String>();
     ArrayList<String>[] outList = new ArrayList[255];
+    String hostIP;
 
     public static List<String> checkHosts(String host) throws IOException {
         List<String> arpTable = new ArrayList<String>();
@@ -68,8 +69,8 @@ public class NetworkContainer {
     }
 
     public NetworkContainer() {
-        String hostIP = getHostIP();
-        System.out.println(hostIP);
+        hostIP = getHostIP();
+        System.out.println("your IP: " + hostIP);
 
         int inPort = Integer.parseInt("1" + String.format("%04d", Integer.parseInt(hostIP.split("\\.")[3])));
 
