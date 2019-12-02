@@ -47,11 +47,11 @@ public class NetworkContainer {
         return null;
     }
 
-    public void sendToOne(int id, String message) throws IOException {
+    public void sendToOne(int id, String message) {
         outList[id].add(message);
     }
 
-    public void sendToAll(String message) throws IOException {
+    public void sendToAll(String message) {
         for (int id = 0; id < 255; id++) {
             if (outList[id] != null){
                 outList[id].add(message);
@@ -59,7 +59,7 @@ public class NetworkContainer {
         }
     }
 
-    public String getMessage(int id, String message) throws IOException {
+    public String getMessage() {
         try {
             return inList.remove(0);
         } catch (Exception e) {
