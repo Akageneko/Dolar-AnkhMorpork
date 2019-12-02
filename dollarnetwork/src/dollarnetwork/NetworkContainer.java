@@ -77,9 +77,7 @@ public class NetworkContainer {
         // arp.remove(hostIP);
         // try {
         // Thread.sleep(5000);
-        // } catch (Exception e) {
-        // //TODO: handle exception
-        // }
+        // } catch (Exception e) {}
 
         // for (String ip : arp) {
         // int inPort = Integer.parseInt("1" + String.format("%04d",

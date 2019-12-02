@@ -5,7 +5,6 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Date;
 import java.util.List;
 
 public class Sender implements Runnable {
@@ -27,9 +26,8 @@ public class Sender implements Runnable {
                 try {
                     Thread.sleep(1000);
                 } catch (Exception e) {
-                    // TODO: handle exception
                 }
-                if (!sendList.isEmpty()){
+                if (!sendList.isEmpty()) {
                     writer.println(sendList.remove(0));
                 }
             }

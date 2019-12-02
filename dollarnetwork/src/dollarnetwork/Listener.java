@@ -22,8 +22,6 @@ public class Listener implements Runnable {
         while(true){
             try (Socket socket = new Socket(host, port)) {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                int outPort = Integer.parseInt("1" + String.format("%04d", Integer.parseInt(host.split("\\.")[3])));
-                //new Thread(new dollarnetwork.Sender(outPort)).start();
                 String answer;
                 while ((answer = reader.readLine()) != null) {
                     listenList.add(answer);
