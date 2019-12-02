@@ -2,18 +2,20 @@ package dollarnetwork;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.List;
 
 public class Listener implements Runnable {
     int port = 0;
     String host = "localhost";
+    List<String> listenList;
 
-    public Listener(int port, String host) {
+    public Listener(int port, String host, List<String> listenList) {
         this.port = port;
         this.host = host;
+        this.listenList = listenList;
     }
 
     public void run() {
@@ -24,7 +26,7 @@ public class Listener implements Runnable {
                 //new Thread(new dollarnetwork.Sender(outPort)).start();
                 String answer;
                 while ((answer = reader.readLine()) != null) {
-                    System.out.println(answer);
+                    listenList.add(answer);
                 }
             } catch (UnknownHostException ex) {
                 System.out.println("Listener: server not found " + ex.getMessage());

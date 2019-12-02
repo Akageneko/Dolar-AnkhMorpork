@@ -6,12 +6,15 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Date;
+import java.util.List;
 
 public class Sender implements Runnable {
     int port = 0;
+    List<String> sendList;
 
-    public Sender(int port) {
+    public Sender(int port, List<String> sendList) {
         this.port = port;
+        this.sendList = sendList;
     }
 
     public void run() {
@@ -26,13 +29,15 @@ public class Sender implements Runnable {
                 } catch (Exception e) {
                     // TODO: handle exception
                 }
-                writer.println(new Date().toString());
+                if (!sendList.isEmpty()){
+                    writer.println(sendList.remove(0));
+                }
             }
             // try {
-            //     socket.close();
-            //     System.out.println("The server is shut down!");
+            // socket.close();
+            // System.out.println("The server is shut down!");
             // } catch (IOException e) { /* failed */ }
-            
+
         } catch (IOException ex) {
             System.out.println("Server: exception " + ex.getMessage());
         }

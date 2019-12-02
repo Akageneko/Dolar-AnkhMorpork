@@ -55,6 +55,9 @@ public class App {
         //     int inPort = Integer.parseInt("1" + String.format("%04d", Integer.parseInt(ip.split("\\.")[3])));
         //     new Thread(new dollarnetwork.NewBlockListener(inPort, ip)).start();
         // }
+        
+        ArrayList<String> inList = new ArrayList<String>();
+        ArrayList<String>[] outList = new ArrayList[255];
 
         String[] splitHost = hostIP.split("\\.");
         for (int i = 0; i<255; i++){
@@ -65,8 +68,12 @@ public class App {
             }
             int outPort = Integer.parseInt("1" + String.format("%04d", i));
 
-            new Thread(new dollarnetwork.Sender(outPort)).start();
-            new Thread(new dollarnetwork.Listener(inPort, ip)).start();
+            outList[i] = new ArrayList<String>();
+
+            final int ii = i;
+            new Thread(new dollarnetwork.Sender(outPort,outList[i])).start();
+            new Thread(new dollarnetwork.Listener(inPort, ip, inList)).start();
+            //new Thread(() -> {for(int x=0; x<5; x++) outList[ii].add("TEST");}).start();
         }
         
     }
