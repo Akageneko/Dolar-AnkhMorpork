@@ -53,5 +53,20 @@ public class BlockChain{
       return balance >= trans.getAmount();
   }
 
+  public double GetUserAccountBalance(String userPublicKey){
+    double balance = 0.0;
+    for(Block b : list){
+      for(Transaction t : b.getTransactions()){
+        if(t.getReceiverKey().equals(userPublicKey)){
+          balance += t.getAmount();
+        }
+        else if(t.getSenderKey().equals(userPublicKey)){
+          balance -= t.getAmount();
+        }
+      }
+    }
+    return balance;
+  }
+
 
 }

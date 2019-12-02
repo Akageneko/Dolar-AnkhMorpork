@@ -10,15 +10,15 @@ public class Settings {
     private String publicKeyString;
 
      public void load() throws IOException {
-         String workingDir = (new File(getClass().getResource("Main.class").getPath())).toPath().getParent().getParent().toString();
+         String workingDir = (new File(getClass().getResource("Main.class").getPath())).toPath().getParent().getParent().getParent().toString();
          // get login credentials
-         File login_file = new File(workingDir+"/config/id.config");
+         File login_file = new File(workingDir+"/AnkhMorporkDollar/config/id.config");
          BufferedReader fromLogin = new BufferedReader(new FileReader(login_file));
          username = getNextValue(fromLogin);
          hashedPassword = getNextValue(fromLogin);
          fromLogin.close();
          // get other settings
-         File props_file = new File(workingDir+"/config/props.config");
+         File props_file = new File(workingDir+"/AnkhMorporkDollar/config/props.config");
          BufferedReader fromProps = new BufferedReader(new FileReader(props_file));
          publicKey = new File(getNextValue(fromProps));
          privateKey = new File(getNextValue(fromProps));

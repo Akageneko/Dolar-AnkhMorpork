@@ -89,8 +89,8 @@ public class Main extends Application {
     }
 
     private boolean newUser() {
-        String workingDir = (new File(getClass().getResource("Main.class").getPath())).toPath().getParent().getParent().toString();
-        String configFile = workingDir + "/config/id.config";
+        String workingDir = (new File(getClass().getResource("Main.class").getPath())).toPath().getParent().getParent().getParent().toString();
+        String configFile = workingDir + "/AnkhMorporkDollar/config/id.config";
         System.out.println(configFile);
         if((new File(configFile)).exists()){
             return false;
