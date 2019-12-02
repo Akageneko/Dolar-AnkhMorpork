@@ -5,16 +5,30 @@ import java.util.ArrayList;
 
 public class Economy {
 
+    public ArrayList<Transaction> getTransactions() {
+        return transactions;
+    }
+
     public ArrayList<Transaction> transactions;
     public double balance;
+
+    public BlockChain getBlockchain() {
+        return blockchain;
+    }
+
     private BlockChain blockchain;
     private Settings settings;
 
     public Economy(Settings settings){
         this.transactions = new ArrayList<>();
         //String workingDir = (new File(getClass().getResource("Main.class").getPath())).toPath().getParent().getParent().toString();
-        this.blockchain = new BlockChain();
+        //this.blockchain = new BlockChain();
         this.settings = settings;
+        //this.balance = blockchain.GetUserAccountBalance(settings.getPublicKeyString());
+    }
+
+    public void initializeBlockchain(){
+        this.blockchain = new BlockChain();
         this.balance = blockchain.GetUserAccountBalance(settings.getPublicKeyString());
     }
 

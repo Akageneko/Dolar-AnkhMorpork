@@ -9,7 +9,7 @@ public class ValidatorConector {  // Save as HelloJNI.java
 
     // Declare an instance native method sayHello() which receives no parameter and returns void
 
-    private native boolean Validate(String block, int number_of_zeros);
+    static public native boolean Validate(String block, int number_of_zeros);
 
 
     // Test Driver

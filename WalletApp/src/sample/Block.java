@@ -40,20 +40,9 @@ public class Block{
         nonce = non;
     }
 
-    public String TransactionToBlock(Transaction trans){
-      String temp = "";
-      temp = "<TRANSACTION>{";
-      temp += "<SENDER_PUBLIC_KEY>{"+trans.getSenderKey()+"}";
-      temp += "<RECIVER_PUBLIC_KEY>{"+trans.getReceiverKey()+"}";
-      temp += "<AMOUNT>{"+ String.valueOf(trans.getAmount()) +"}";
-      temp += "<SIGNATURE>{"+trans.getSignature()+"}";
-      temp +="}";
-      return temp;
-    }
-
     public void AddTransactionToBlock(Transaction trans){
       this.list.add(trans);
-      this.transactions += TransactionToBlock(trans);
+      this.transactions += trans.toString();
     }
 
     public void ReadBlockString(String block){
@@ -91,7 +80,7 @@ public class Block{
         list.add(new Transaction(send, rec, Double.parseDouble(amo), sig));
       }
       for (Transaction temp : list) {
-        transactions += TransactionToBlock(temp);
+        transactions += temp.toString();
       }
     }
 
@@ -120,6 +109,5 @@ public class Block{
 
       return "<BLOCK>{"+temp+"}";
     }
-
 
 }

@@ -7,6 +7,13 @@ public class Transaction {
     private double amount;
     private String signature;
 
+    public Transaction(String trans){
+        this.senderKey = trans.substring(trans.indexOf("<SENDER_PUBLIC_KEY>{")+20,trans.indexOf("}",trans.indexOf("<SENDER_PUBLIC_KEY>{")));
+        this.receiverKey = trans.substring(trans.indexOf("<RECIVER_PUBLIC_KEY>{")+21,trans.indexOf("}",trans.indexOf("<RECIVER_PUBLIC_KEY>{")));
+        this.amount = Double.parseDouble(trans.substring(trans.indexOf("<AMOUNT>{")+9,trans.indexOf("}",trans.indexOf("<AMOUNT>{"))));
+        this.signature = trans.substring(trans.indexOf("<SIGNATURE>{")+12,trans.indexOf("}",trans.indexOf("<SIGNATURE>{")));
+    }
+
     public Transaction(String sender, String receiver, double amount, String signat){
         this.senderKey = sender;
         this.receiverKey = receiver;
@@ -15,13 +22,14 @@ public class Transaction {
     }
 
     public String toString(){
-        String json = "{";
-        json += "\"sender\":"+"\""+senderKey+"\",";
-        json += "\"receiver\":"+"\""+receiverKey+"\",";
-        json += "\"amount\":"+amount+",";
-        json += "\"signature\":"+"\""+signature+"\"}";
-        System.out.println(json);
-        return json;
+        String temp = "";
+        temp = "<TRANSACTION>{";
+        temp += "<SENDER_PUBLIC_KEY>{"+senderKey+"}";
+        temp += "<RECIVER_PUBLIC_KEY>{"+receiverKey+"}";
+        temp += "<AMOUNT>{"+ amount +"}";
+        temp += "<SIGNATURE>{"+signature+"}";
+        temp +="}";
+        return temp;
     }
 
     public String getSenderKey() {

@@ -1,9 +1,6 @@
 package sample;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -33,10 +30,37 @@ public class BlockChain{
 
   }
 
+  public static void setFileContent(String blockChainContent) {
+    try {
+      File blockchainTEMP = new File("blockchain");
+      blockchainTEMP.delete();
+      blockchainTEMP.createNewFile();
+      FileWriter fileWriter = new FileWriter("blockchain");
+      fileWriter.write(blockChainContent);
+      fileWriter.close();
+    } catch (IOException ex) {
+      ex.printStackTrace();
+    }
+  }
+
+  public String toString(){
+    Scanner myReader = null;
+    String temp = "";
+    try {
+      myReader = new Scanner(blockchain);
+      while (myReader.hasNextLine()) {
+        temp += myReader.nextLine()+ "\n";
+      }
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    }
+    return temp;
+  }
+
   public void AddBlockToChain(Block block){
     try {
       PrintWriter out = new PrintWriter(new FileWriter(blockchain, true));
-      out.append(block.toString());
+      out.println(block.toString());
       out.close();
       this.list.add(block);
     }catch (Exception e){
