@@ -17,7 +17,7 @@ public class Economy {
     }
 
     private BlockChain blockchain;
-    private Settings settings;
+    public Settings settings;
 
     public Economy(Settings settings){
         this.transactions = new ArrayList<>();
@@ -43,4 +43,11 @@ public class Economy {
         }
     }
 
+    public String getSignature(String s) {
+        String signature = new String();
+        for(int i=0;i<256;i++){
+            signature += "0";
+        }
+        return signature;
+    }
 }

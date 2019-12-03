@@ -29,6 +29,7 @@ public class ControllerLogin extends PersonalizedController {
 
     public void button_signIn(ActionEvent event) throws NoSuchAlgorithmException {
         if(Main.hashPassword(fieldPassword.getText()).equals(settings.getHashedPassword())){
+
             Main.setView("wallet");
         }
         else{

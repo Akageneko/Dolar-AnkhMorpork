@@ -1,6 +1,7 @@
 package sample;
 
 import java.io.*;
+import java.math.BigInteger;
 
 public class Settings {
      private String username, hashedPassword;
@@ -8,6 +9,25 @@ public class Settings {
      private File publicKey, privateKey;
      //conveniece for not reading the public key everytime
     private String publicKeyString;
+
+    public double getMiningPrize() {
+        return miningPrize;
+    }
+
+    public void setMiningPrize(double miningPrize) {
+        this.miningPrize = miningPrize;
+    }
+
+    public int getNumberOfZeros() {
+        return numberOfZeros;
+    }
+
+    public void setNumberOfZeros(int numberOfZeros) {
+        this.numberOfZeros = numberOfZeros;
+    }
+
+    private double miningPrize;
+    private int numberOfZeros;
 
      public void load() throws IOException {
          String workingDir = (new File(getClass().getResource("Main.class").getPath())).toPath().getParent().getParent().getParent().toString();
@@ -29,6 +49,12 @@ public class Settings {
              dig = false;
          }
          publicKeyString = getFromPublicKey(publicKey);
+         // get blockchain settings
+         File blockchain_file = new File(workingDir+"/AnkhMorporkDollar/config/blockchain.config");
+         BufferedReader fromBlockchain = new BufferedReader(new FileReader(blockchain_file));
+         miningPrize = Double.parseDouble(fromBlockchain.readLine());
+         numberOfZeros = Integer.parseInt(fromBlockchain.readLine());
+         fromBlockchain.close();
      }
 
     private String getFromPublicKey(File publicKey) {
@@ -111,5 +137,11 @@ public class Settings {
 
     public String getPublicKeyString() {
         return publicKeyString;
+    }
+    public String KeyToHex(String key){
+        byte[] hashedBytes = key.getBytes();
+        BigInteger numerical = new BigInteger(1,hashedBytes);
+        StringBuilder hexString = new StringBuilder(numerical.toString(16));
+        return hexString.toString();
     }
 }

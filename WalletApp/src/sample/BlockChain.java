@@ -1,6 +1,7 @@
 package sample;
 
 import java.io.*;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -93,4 +94,8 @@ public class BlockChain{
   }
 
 
+    public String getLatestHash() throws NoSuchAlgorithmException {
+      Block lastBlock = list.get(list.size()-1);
+        return Main.hashPassword(lastBlock.toString());
+    }
 }

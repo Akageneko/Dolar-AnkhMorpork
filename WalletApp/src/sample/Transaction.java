@@ -21,6 +21,10 @@ public class Transaction {
         this.signature = signat;
     }
 
+    public static String GetInfiniteWellKey() {
+        return "";
+    }
+
     public String toString(){
         String temp = "";
         temp = "<TRANSACTION>{";

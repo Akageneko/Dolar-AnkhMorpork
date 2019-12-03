@@ -12,6 +12,11 @@ public class Block{
 
     public Block(String line){ ReadBlockString(line); }
 
+    public Block(String prevHash,Transaction transaction){
+        this.prev_block_hash = prevHash;
+        AddTransactionToBlock(transaction);
+    }
+
     public String toString(){ return blockBuldier();}
 
     public String GetBlock(){ return blockBuldier(); }

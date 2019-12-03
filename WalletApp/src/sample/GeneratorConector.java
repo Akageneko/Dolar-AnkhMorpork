@@ -9,7 +9,7 @@ public class GeneratorConector {  // Save as HelloJNI.java
 
     // Declare an instance native method sayHello() which receives no parameter and returns void
 
-    private native long Mine(String block, int number_of_zeros);
+    public static native long Mine(String block, int number_of_zeros);
 
   // static String str = "123<NONCE>{}waihdiuwahiheuygfsufushfsuhuyfhsuyfhseuyfheuyfsuyfsyfhseuyfgseuyfgseuyfgseuygfsueygfusygfseuy";
 
