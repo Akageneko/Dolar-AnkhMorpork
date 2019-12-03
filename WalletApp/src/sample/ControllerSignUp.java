@@ -74,12 +74,12 @@ public class ControllerSignUp extends PersonalizedController{
         if(publicKey==null || privateKey==null) {
             return;
         }
-        String workingDir = (new File(getClass().getResource("Main.class").getPath())).toPath().getParent().getParent().toString();
+        String workingDir = (new File(getClass().getResource("Main.class").getPath())).toPath().getParent().getParent().getParent().toString();
 
         try {
             settings = new Settings();
             //preparing login file
-            File login_file = new File(workingDir+"/config/id.config");
+            File login_file = new File(workingDir+"/AnkhMorporkDollar/config/id.config");
             login_file.createNewFile();
             settings.setUsername(fieldUsername.getText());
             //hashing password
@@ -87,7 +87,7 @@ public class ControllerSignUp extends PersonalizedController{
             settings.setHashedPassword(hp);
 
             //preparing wallet's properties
-            File props_file = new File(workingDir+"/config/props.config");
+            File props_file = new File(workingDir+"/AnkhMorporkDollar/config/props.config");
             props_file.createNewFile();
             settings.setPublicKey(publicKey);
             settings.setPrivateKey(privateKey);

@@ -49,7 +49,7 @@ public class Settings {
          else{
              dig = false;
          }
-         publicKeyString = getFromPublicKey(publicKey);
+         publicKeyString = getFromPublicKeyHex(publicKey);
          // get blockchain settings
          File blockchain_file = new File(workingDir+"/AnkhMorporkDollar/config/blockchain.config");
          BufferedReader fromBlockchain = new BufferedReader(new FileReader(blockchain_file));
@@ -58,15 +58,12 @@ public class Settings {
          fromBlockchain.close();
      }
 
-    private String getFromPublicKey(File publicKey) {
-         return "aga";
-    }
 
     public void export(){
-         String workingDir = (new File(getClass().getResource("Main.class").getPath())).toPath().getParent().getParent().toString();
+         String workingDir = (new File(getClass().getResource("Main.class").getPath())).toPath().getParent().getParent().getParent().toString();
          try {
              //preparing login file
-             File login_file = new File(workingDir+"/config/id.config");
+             File login_file = new File(workingDir+"/AnkhMorporkDollar/config/id.config");
              PrintWriter toLogin = new PrintWriter(login_file);
              toLogin.println("username:"+username);
              //hashing password
@@ -74,7 +71,7 @@ public class Settings {
              toLogin.close();
 
              //preparing wallet's properties
-             File props_file = new File(workingDir+"/config/props.config");
+             File props_file = new File(workingDir+"/AnkhMorporkDollar/config/props.config");
              PrintWriter toProps = new PrintWriter(props_file);
              toProps.println("public-key:"+publicKey.getAbsolutePath());
              toProps.println("private-key:"+privateKey.getAbsolutePath());
@@ -93,7 +90,8 @@ public class Settings {
      }
 
      private String getNextValue(BufferedReader bf) throws IOException {
-         return bf.readLine().split(":",2)[1];
+         String line = bf.readLine();
+         return line.split(":",2)[1];
      }
 
     public String getUsername() {
