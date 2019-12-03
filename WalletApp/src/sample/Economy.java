@@ -10,7 +10,7 @@ public class Economy {
     }
 
     public ArrayList<Transaction> transactions;
-    public double balance;
+    public double balance = 0.0;
 
     public BlockChain getBlockchain() {
         return blockchain;
@@ -21,10 +21,7 @@ public class Economy {
 
     public Economy(Settings settings){
         this.transactions = new ArrayList<>();
-        //String workingDir = (new File(getClass().getResource("Main.class").getPath())).toPath().getParent().getParent().toString();
-        //this.blockchain = new BlockChain();
         this.settings = settings;
-        //this.balance = blockchain.GetUserAccountBalance(settings.getPublicKeyString());
     }
 
     public void initializeBlockchain(){
@@ -37,7 +34,7 @@ public class Economy {
             return false;
         }
         else{
-            transactions.add(new Transaction(settings.getPublicKeyString(),receiver,amount,null));
+            transactions.add(new Transaction(settings.getPublicKeyString(),receiver,amount,getSignature(settings.getPublicKeyString()+receiver+amount)));
             balance -= amount;
             return true;
         }

@@ -2,6 +2,7 @@ package sample;
 
 import java.io.*;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 
 public class Settings {
      private String username, hashedPassword;
@@ -140,6 +141,27 @@ public class Settings {
     }
     public String KeyToHex(String key){
         byte[] hashedBytes = key.getBytes();
+        BigInteger numerical = new BigInteger(1,hashedBytes);
+        StringBuilder hexString = new StringBuilder(numerical.toString(16));
+        return hexString.toString();
+    }
+
+    private String getFromPublicKeyHex(File publicKey) {
+        FileInputStream fileInputStream;
+        String fileContent = "";
+        try {
+            fileInputStream = new FileInputStream(publicKey);
+            byte[] fileValue = new byte[(int) publicKey.length()];
+            fileInputStream.read(fileValue);
+            fileInputStream.close();
+
+            fileContent = new String(fileValue, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String plainText = fileContent.split("-----")[3];
+        byte[] hashedBytes = plainText.getBytes();
         BigInteger numerical = new BigInteger(1,hashedBytes);
         StringBuilder hexString = new StringBuilder(numerical.toString(16));
         return hexString.toString();

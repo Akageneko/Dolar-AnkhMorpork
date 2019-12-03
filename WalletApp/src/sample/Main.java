@@ -26,6 +26,7 @@ public class Main extends Application {
     static String currentView;
     static Settings settings;
     static Economy economy;
+    public static Secretary secretary;
 
 
     public static void setView(String view) {
@@ -104,6 +105,11 @@ public class Main extends Application {
             views.put(filename,(GridPane)viewLoader.load());
             controllers.put(filename,viewLoader.getController());
         }
+    }
+
+    public static void buildAndRunSecretary(){
+        secretary = new Secretary(economy,settings.isDig());
+        secretary.start();
     }
 
 

@@ -75,8 +75,8 @@ public class Secretary extends Thread {
                 Block incoming = new Block(msg.split("|")[1]);
                 if(ValidatorConector.Validate(incoming.toString(),5)) {
                     economy.getBlockchain().AddBlockToChain(incoming);
-
-
+                    economy.balance = economy.getBlockchain().GetUserAccountBalance(economy.settings.getPublicKeyString());
+                    Main.refreshMoneyLabel();
                 }
                 else {
                     try {
@@ -121,6 +121,8 @@ public class Secretary extends Thread {
             msg = netContainer.getMessage();
         }
         economy.initializeBlockchain();
+        economy.balance = economy.getBlockchain().GetUserAccountBalance(economy.settings.getPublicKeyString());
+        Main.refreshMoneyLabel();
         while(!tempInList.isEmpty()){
             msg = tempInList.get(0);
             try {
@@ -140,6 +142,9 @@ public class Secretary extends Thread {
         Block block = null;
         try {
             block = new Block(economy.getBlockchain().getLatestHash(),prize);
+            for(Transaction t : economy.transactions){
+                block.AddTransactionToBlock(t);
+            }
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
