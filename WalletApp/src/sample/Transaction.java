@@ -22,7 +22,11 @@ public class Transaction {
     }
 
     public static String GetInfiniteWellKey() {
-        return "";
+        String key = "";
+        for(int i=0;i<256;i++){
+            key += "0";
+        }
+        return key;
     }
 
     public String toString(){

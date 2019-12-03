@@ -49,7 +49,10 @@ public class Secretary extends Thread {
         String msg = "Block|";
         msg += block.toString();
         netContainer.sendToAll(msg);
-
+        for(Transaction t : block.getTransactions()){
+            economy.transactions.remove(t);
+        }
+        initializeDigging();
     }
 
     private void serveMessage(String msg) throws NoSuchAlgorithmException {
@@ -75,6 +78,10 @@ public class Secretary extends Thread {
                 Block incoming = new Block(msg.split("|")[1]);
                 if(ValidatorConector.Validate(incoming.toString(),5)) {
                     economy.getBlockchain().AddBlockToChain(incoming);
+                    for(Transaction t : incoming.getTransactions()){
+                        economy.transactions.remove(t);
+                    }
+                    initializeDigging();
                     economy.balance = economy.getBlockchain().GetUserAccountBalance(economy.settings.getPublicKeyString());
                     Main.refreshMoneyLabel();
                 }
@@ -123,6 +130,7 @@ public class Secretary extends Thread {
         economy.initializeBlockchain();
         economy.balance = economy.getBlockchain().GetUserAccountBalance(economy.settings.getPublicKeyString());
         Main.refreshMoneyLabel();
+        initializeDigging();
         while(!tempInList.isEmpty()){
             msg = tempInList.get(0);
             try {
@@ -137,7 +145,7 @@ public class Secretary extends Thread {
     private void initializeDigging(){
         String senderKey = Transaction.GetInfiniteWellKey();
         String receiverKey = economy.settings.getPublicKeyString();
-        double amount = 100.0;
+        double amount = economy.settings.getMiningPrize();
         Transaction prize = new Transaction(senderKey,receiverKey,amount,economy.getSignature(senderKey+receiverKey+amount));
         Block block = null;
         try {
