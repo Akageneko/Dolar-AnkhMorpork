@@ -1,21 +1,26 @@
 package sample;
 
+import java.io.File;
+
 public class GeneratorConector {  // Save as HelloJNI.java
     static {
         // System.loadLibrary("SHA256_Algorythm");
-        System.loadLibrary("Generator"); // Load native library Generator.dll (Windows) or Generator.so (Unixes)
+        //System.loadLibrary("Generator"); // Load native library Generator.dll (Windows) or libGenerator.so (Unixes)
+        System.out.println("adding lib");
+        //System.out.println(System.getProperty("java.library.path"));
+        try{
+            System.load("/home/matai/dolar_ankh/GIT/Dolar-AnkhMorpork/WalletApp/out/production/AnkhMorporkDollar/libs/libGeneratorConector.so");
+        }catch (UnsatisfiedLinkError e){
+            e.printStackTrace();
+            System.out.println("łączenie biblioteki");
+        }
+        System.out.println("added lib");
         //  at runtime
     }
 
-    // Declare an instance native method sayHello() which receives no parameter and returns void
+    //
 
-    public static native long Mine(String block, int number_of_zeros);
+    //public static native long Mine(String block, int number_of_zeros);
+    public native long Mine(String block, int number_of_zeros);
 
-  // static String str = "123<NONCE>{}waihdiuwahiheuygfsufushfsuhuyfhsuyfhseuyfheuyfsuyfsyfhseuyfgseuyfgseuyfgseuygfsueygfusygfseuy";
-
-    // Test Driver
-/*    public static void main(String[] args) {
-	System.out.println(new GeneratorConector().Mine(str,3));
-    }
-*/
 }

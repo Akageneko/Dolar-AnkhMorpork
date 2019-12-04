@@ -10,6 +10,9 @@ public class Block{
     private String transactions = "";
     private List<Transaction> list = new ArrayList<Transaction>();
 
+    private int lengthOfCrypto = 392 ;
+    private int lengthOfSignature = 392 ;
+
     public Block(String line){ ReadBlockString(line); }
 
     public Block(String prevHash,Transaction transaction){
@@ -67,17 +70,17 @@ public class Block{
         i = block.indexOf("<TRANSACTION>{",i);
         //sender
         i = block.indexOf("<SENDER_PUBLIC_KEY>{",i)+20;
-        send = block.substring(i,i+256);
+        send = block.substring(i,i+lengthOfCrypto);
         System.out.println("sender:"+send);
         //receiver
         i = block.indexOf("<RECIVER_PUBLIC_KEY>{",i)+21;
-        rec = block.substring(i,i+256);
+        rec = block.substring(i,i+lengthOfCrypto);
         System.out.println("reciver:"+rec);
         //amount
         i = block.indexOf("<AMOUNT>{",i)+9;
         amo = block.substring(i,block.indexOf("}",i));
         System.out.println("amount:"+amo);
-        //signature
+        //signature TO TRZEBA ZMIENIC W PRZYSZLOSCI
         i = block.indexOf("<SIGNATURE>{",i)+12;
         sig = block.substring(i,i+256);
         System.out.println("signature:"+sig);

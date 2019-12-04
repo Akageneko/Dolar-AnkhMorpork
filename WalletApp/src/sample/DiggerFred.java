@@ -13,8 +13,8 @@ public class DiggerFred{
         fred = new Thread(){
             @Override
             public void run() {
-                long nonce = GeneratorConector.Mine(block.toString(),numberOfZeros);
-                block.SetNonce(""+nonce);
+                //long nonce = GeneratorConector.Mine(block.toString(),numberOfZeros);
+                //block.SetNonce(""+nonce);
                 sendMinedBlock(block);
             }
         };
