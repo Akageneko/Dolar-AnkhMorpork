@@ -1,7 +1,7 @@
 public class GeneratorConector {  // Save as HelloJNI.java
     static {
         // System.loadLibrary("SHA256_Algorythm");
-        System.loadLibrary("Generator"); // Load native library Generator.dll (Windows) or Generator.so (Unixes)
+        System.loadLibrary("GeneratorConector"); // Load native library Generator.dll (Windows) or Generator.so (Unixes)
         //  at runtime
     }
 
@@ -9,10 +9,10 @@ public class GeneratorConector {  // Save as HelloJNI.java
 
     private native long Mine(String block, int number_of_zeros);
 
-   static String str = "123<NONCE>{}waihdiuwahiheuygfsufushfsuhuyfhsuyfhseuyfheuyfsuyfsyfhseuyfgseuyfgseuyfgseuygfsueygfusygfseuy";
+  // static String str = "123<NONCE>{}waihdiuwahiheuygfsufushfsuhuyfhsuyfhseuyfheuyfsuyfsyfhseuyfgseuyfgseuyfgseuygfsueygfusygfseuy";
 
     // Test Driver
-    public static void main(String[] args) {
-	System.out.println(new GeneratorConector().Mine(str,3));
-    }
+   // public static void main(String[] args) {
+//	System.out.println(new GeneratorConector().Mine(str,3));
+  //  }
 }

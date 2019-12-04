@@ -7,8 +7,8 @@
 #ifdef __cplusplus
 
 #include <string.h>
-//#include <cstring>
-#include <fstream>
+#include <random>
+#include <ctime>
 
 class Validator {
 
@@ -16,7 +16,6 @@ class Validator {
 public :
     bool Validate(std::string block, int number_of_zeros);
 };
-
 
 class SHA256 {
 protected:
@@ -70,11 +69,9 @@ std::string sha256(std::string input);
            | ((uint32) *((str) + 0) << 24);   \
 }
 
+
 extern "C" {
 #endif
-
-
-
 /*
  * Class:     ValidatorConector
  * Method:    Validate

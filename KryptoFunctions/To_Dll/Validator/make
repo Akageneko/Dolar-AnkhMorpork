@@ -2,4 +2,4 @@ export JAVA_HOME=/usr/lib/jvm/default-java
 
 echo $JAVA_HOME
 
-g++ -fPIC -I"$JAVA_HOME/include" -I"$JAVA_HOME/include/linux" -shared -o libValidator.so ValidatorConector.cpp
+g++ -fPIC -I"$JAVA_HOME/include" -I"$JAVA_HOME/include/linux" -shared -o libValidatorConector.so ValidatorConector.cpp

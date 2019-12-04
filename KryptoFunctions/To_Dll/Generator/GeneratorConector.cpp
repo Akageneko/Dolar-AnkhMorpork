@@ -34,7 +34,7 @@ bool Generator::Check_Hash(std::string hash, int number_of_zeros) {
     return true;
 }
 
-unsigned int Generator::Mine(std::string block, int number_of_zeros) {
+unsigned int Generator::MineIt(std::string block, int number_of_zeros) {
 
     std::mt19937 gen(time(nullptr) );
     std::uniform_int_distribution<unsigned int> distribution(0, UINT32_MAX);
@@ -48,7 +48,6 @@ unsigned int Generator::Mine(std::string block, int number_of_zeros) {
         sha_hash = sha256(block);
     }while(!Check_Hash(sha_hash, number_of_zeros));
 
-
     return nonce;
 }
 
@@ -59,7 +58,7 @@ JNIEXPORT jlong JNICALL Java_GeneratorConector_Mine
 {
     std::string blockc(env->GetStringUTFChars(block, NULL));
     Generator gen;
-    return gen.Mine(blockc , (int)number_of_zeros);
+    return gen.MineIt(blockc , (int)number_of_zeros);
 }
 
 //--------------------------------------------SHA-------------------------

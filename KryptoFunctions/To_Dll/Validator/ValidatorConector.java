@@ -1,7 +1,7 @@
 public class ValidatorConector {  // Save as HelloJNI.java
     static {
         // System.loadLibrary("SHA256_Algorythm");
-        System.loadLibrary("Validator"); // Load native library Generator.dll (Windows) or Generator.so (Unixes)
+        System.loadLibrary("ValidatorConector"); // Load native library Generator.dll (Windows) or Generator.so (Unixes)
         //  at runtime
     }
 
@@ -11,7 +11,6 @@ public class ValidatorConector {  // Save as HelloJNI.java
 
 
     // Test Driver
-    public static void main(String[] args) {
-
-    }
+  //  public static void main(String[] args) {
+    //}
 }

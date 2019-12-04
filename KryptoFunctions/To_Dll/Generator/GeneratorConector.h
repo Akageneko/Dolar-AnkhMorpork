@@ -16,7 +16,7 @@ private:
     static bool Check_Hash(std::string block, int number_of_zeros);
 
 public:
-    unsigned int Mine(std::string block, int number_of_zeros);
+    unsigned int MineIt(std::string block, int number_of_zeros);
 
 
 };
@@ -79,13 +79,10 @@ extern "C" {
 /*
  * Class:     GeneratorConector
  * Method:    Mine
- * Signature: (Ljava/lang/String;I)I
+ * Signature: (Ljava/lang/String;I)J
  */
 JNIEXPORT jlong JNICALL Java_GeneratorConector_Mine
   (JNIEnv *, jobject, jstring, jint);
-/*--------------------FACT CLASS----------------*/
-
-
 
 #ifdef __cplusplus
 }
