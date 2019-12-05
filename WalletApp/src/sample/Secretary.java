@@ -29,6 +29,7 @@ public class Secretary extends Thread {
         System.out.println("DEBUG: Starting listening");
         while (true){
            String msg = netContainer.getMessage();
+           System.out.println("MESSAGE PASSED TO SECRETARY: "+msg);
             if(msg!=null) {
                 try {
                     serveMessage(msg);
@@ -37,7 +38,7 @@ public class Secretary extends Thread {
                 }
             }
             try {
-                Thread.sleep(50);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -71,7 +72,7 @@ public class Secretary extends Thread {
         switch(msgType){
             case "Hello":{
                 //wyciągnij id z IP
-                int id = Integer.parseInt((msg.split("\\|")[1]).split(".")[3]);
+                int id = Integer.parseInt((msg.split("\\|")[1]).split("\\.")[3]);
                 //wyślij swój blockChain
                 String respond = "BlockChain|";
                 respond += economy.getBlockchain().toString();
@@ -139,6 +140,7 @@ public class Secretary extends Thread {
                     break;
                 } else {
                     tempInList.add(msg);
+                    System.out.println("MESSAGE SENT TO TEMP INBOX: "+msg);
                 }
             }
             try {
@@ -156,6 +158,7 @@ public class Secretary extends Thread {
         }
         while(!tempInList.isEmpty()){
             msg = tempInList.get(0);
+            System.out.println("FROM TEMP BOX PARSING MESSAGE: "+msg);
             try {
                 serveMessage(msg);
             } catch (NoSuchAlgorithmException e) {
