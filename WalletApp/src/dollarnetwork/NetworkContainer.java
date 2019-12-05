@@ -49,12 +49,12 @@ public class NetworkContainer {
     }
 
     public void sendToOne(int id, String message) {
-        System.out.println(message);
+        System.out.println("MESSAGE SENT TO "+id+": "+message);
         outList[id].add(message);
     }
 
     public void sendToAll(String message) {
-        System.out.println(message);
+        System.out.println("MESSAGE SENT TO ALL: "+message);
         for (int id = 0; id < 255; id++) {
             if (outList[id] != null){
                 outList[id].add(message);
@@ -65,7 +65,7 @@ public class NetworkContainer {
     public String getMessage() {
         try {
             String message = inList.remove(0);
-            System.out.println(message);
+            System.out.println("MESSAGE RECEIVED: "+message);
             return message;
         } catch (Exception e) {
             return null;
