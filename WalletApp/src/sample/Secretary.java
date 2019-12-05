@@ -57,7 +57,8 @@ public class Secretary extends Thread {
         msg += block.toString();
         netContainer.sendToAll(msg);
         for(Transaction t : block.getTransactions()){
-            economy.transactions.remove(t);
+            economy.RemoveTransaction(t);
+
         }
         try {
             initializeDigging();
@@ -91,8 +92,7 @@ public class Secretary extends Thread {
                 if(GeneratoValidator.Validate(incoming.toString(),5)) {
                     economy.getBlockchain().AddBlockToChain(incoming);
                     for(Transaction t : incoming.getTransactions()){
-
-                        economy.transactions.remove(t);
+                        economy.RemoveTransaction(t);
                     }
                     initializeDigging();
                     economy.balance = economy.getBlockchain().GetUserAccountBalance(economy.settings.getPublicKeyString());

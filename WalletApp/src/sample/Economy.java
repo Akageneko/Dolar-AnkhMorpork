@@ -57,7 +57,7 @@ public class Economy {
         for (int i = 0; i < transactions.size(); i++){
             if(equal(trans, transactions.get(i))){
                 transactions.remove(i);
-                System.out.println("DEBUG: Transaction removed");
+                System.err.println("DEBUG: Transaction removed");
                 break;
             }
         }
