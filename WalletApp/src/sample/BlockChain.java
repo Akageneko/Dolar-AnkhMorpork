@@ -36,8 +36,11 @@ public class BlockChain{
       File blockchainTEMP = new File("blockchain");
       blockchainTEMP.delete();
       blockchainTEMP.createNewFile();
-      FileWriter fileWriter = new FileWriter("blockchain");
-      fileWriter.write(blockChainContent);
+      PrintWriter fileWriter = new PrintWriter(new FileWriter("blockchain"));
+      String[] lines = blockChainContent.split("#");
+      for(String line : lines){
+        fileWriter.println(line);
+      }
       fileWriter.close();
     } catch (IOException ex) {
       ex.printStackTrace();
@@ -50,7 +53,7 @@ public class BlockChain{
     try {
       myReader = new Scanner(blockchain);
       while (myReader.hasNextLine()) {
-        temp += myReader.nextLine()+ "\n";
+        temp += myReader.nextLine()+ "#";
       }
     } catch (FileNotFoundException e) {
       e.printStackTrace();
