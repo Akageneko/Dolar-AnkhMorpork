@@ -1,5 +1,7 @@
 package sample;
 
+import java.security.NoSuchAlgorithmException;
+
 public class Transaction {
 
     private String senderKey;
@@ -22,9 +24,12 @@ public class Transaction {
     }
 
     public static String GetInfiniteWellKey() {
-        String s = "";
-        for (int i = 0; i<392;i++) s+="0";
-        return s;
+        try {
+            return Main.hashPassword("This is the Infinite Well of Fortune");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public String toString(){

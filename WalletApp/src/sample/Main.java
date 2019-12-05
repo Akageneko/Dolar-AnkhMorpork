@@ -46,7 +46,7 @@ public class Main extends Application {
             double amount = Double.parseDouble(amountInString);
             return economy.addTransaction(receiver,amount);
         }
-        catch (NumberFormatException e){
+        catch (NumberFormatException | NoSuchAlgorithmException e){
             return false;
         }
 

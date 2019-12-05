@@ -95,6 +95,9 @@ public class BlockChain{
 
 
     public String getLatestHash() throws NoSuchAlgorithmException {
+      if(list.size()==0){
+        return Main.hashPassword("To jest pierwszy blok");
+      }
       Block lastBlock = list.get(list.size()-1);
         return Main.hashPassword(lastBlock.toString());
     }

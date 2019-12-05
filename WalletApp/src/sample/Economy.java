@@ -1,6 +1,7 @@
 package sample;
 
 import java.io.File;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 public class Economy {
@@ -29,7 +30,7 @@ public class Economy {
         this.balance = blockchain.GetUserAccountBalance(settings.getPublicKeyString());
     }
 
-    public boolean addTransaction(String receiver,double amount){
+    public boolean addTransaction(String receiver,double amount) throws NoSuchAlgorithmException {
         if(amount > balance ){
             return false;
         }
@@ -40,11 +41,7 @@ public class Economy {
         }
     }
 
-    public String getSignature(String s) {
-        String signature = new String();
-        for(int i=0;i<256;i++){
-            signature += "0";
-        }
-        return signature;
+    public String getSignature(String s) throws NoSuchAlgorithmException {
+        return Main.hashPassword(s);
     }
 }

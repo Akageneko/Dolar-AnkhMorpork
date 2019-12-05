@@ -20,8 +20,13 @@ public class Secretary extends Thread {
 
     @Override
     public void run() {
-        waitForBlockChain();
-
+        System.out.println("DEBUG: Secretaru running");
+        try {
+            waitForBlockChain();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        System.out.println("DEBUG: Starting listening");
         while (true){
            String msg = netContainer.getMessage();
             if(msg!=null) {
@@ -52,7 +57,11 @@ public class Secretary extends Thread {
         for(Transaction t : block.getTransactions()){
             economy.transactions.remove(t);
         }
-        initializeDigging();
+        try {
+            initializeDigging();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
     }
 
     private void serveMessage(String msg) throws NoSuchAlgorithmException {
@@ -106,8 +115,10 @@ public class Secretary extends Thread {
         }
     }
 
-    private void waitForBlockChain(){
+    private void waitForBlockChain() throws NoSuchAlgorithmException {
+        System.out.println("DEBUG: sending hello...");
         netContainer.sendToAll("Hello|" + netContainer.hostIP);
+        System.out.println("DEBUG: sent");
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -115,22 +126,34 @@ public class Secretary extends Thread {
         }
         String msg = netContainer.getMessage();
         ArrayList<String> tempInList = new ArrayList<>();
-        while(msg!=null){
+        long startTime = System.currentTimeMillis();
+        while(System.currentTimeMillis()-startTime < 5000){
+            System.out.println("DEBUG: Waiting for blockchain... "+(System.currentTimeMillis()-startTime)+"ms");
             //załaduj swój blockchain
-            if(msg.startsWith("BlockChain|")){
-                String blockChainContent = msg.split("|")[1];
-                BlockChain.setFileContent(blockChainContent);
-                break;
+            if(msg!=null) {
+                if (msg.startsWith("BlockChain|")) {
+                    System.out.println("DEBUG: received blockchain");
+                    String blockChainContent = msg.split("|")[1];
+                    BlockChain.setFileContent(blockChainContent);
+                    break;
+                } else {
+                    tempInList.add(msg);
+                }
             }
-            else{
-                tempInList.add(msg);
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
             msg = netContainer.getMessage();
         }
+        System.out.println("DEBUG: Ready or not, loading blockchain");
         economy.initializeBlockchain();
         economy.balance = economy.getBlockchain().GetUserAccountBalance(economy.settings.getPublicKeyString());
         Main.refreshMoneyLabel();
-        initializeDigging();
+        if(economy.settings.isDig()) {
+            initializeDigging();
+        }
         while(!tempInList.isEmpty()){
             msg = tempInList.get(0);
             try {
@@ -142,11 +165,13 @@ public class Secretary extends Thread {
         }
     }
 
-    private void initializeDigging(){
+    private void initializeDigging() throws NoSuchAlgorithmException {
+        System.out.println("DEBUG: in initialize Digging");
         String senderKey = Transaction.GetInfiniteWellKey();
         String receiverKey = economy.settings.getPublicKeyString();
         double amount = economy.settings.getMiningPrize();
         Transaction prize = new Transaction(senderKey,receiverKey,amount,economy.getSignature(senderKey+receiverKey+amount));
+        System.out.println("DEBUG: Added prize transaction: "+prize.toString());
         Block block = null;
         try {
             block = new Block(economy.getBlockchain().getLatestHash(),prize);
