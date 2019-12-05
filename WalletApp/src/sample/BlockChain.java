@@ -90,6 +90,7 @@ public class BlockChain{
         }
       }
     }
+    System.err.println("DEBUG: BALANCE "+balance);
     return balance;
   }
 

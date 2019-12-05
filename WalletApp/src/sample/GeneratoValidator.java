@@ -6,7 +6,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class GeneratoValidator {
 
-    private String insertNonce(String block, int nonce){
+    static private String insertNonce(String block, int nonce){
         String non = String.valueOf(nonce);
         while(non.length()<9){
             non = "0"+non;
@@ -16,7 +16,7 @@ public class GeneratoValidator {
         return s1 + non + s2;
     }
 
-    private boolean hashAndCheck(String block, int number_of_zeros){
+    static private boolean hashAndCheck(String block, int number_of_zeros){
         MessageDigest digest = null;
         boolean isGood = true;
         try {
@@ -46,7 +46,7 @@ public class GeneratoValidator {
         return isGood;
     }
 
-    public int Mine(String block, int number_of_zeros){
+    static public int Mine(String block, int number_of_zeros){
 
         int nonce;
 
@@ -59,7 +59,7 @@ public class GeneratoValidator {
 
 
 
-    public boolean Validate(String block, int number_of_zeros){
+    static public boolean Validate(String block, int number_of_zeros){
         return hashAndCheck(block,number_of_zeros);
     }
 

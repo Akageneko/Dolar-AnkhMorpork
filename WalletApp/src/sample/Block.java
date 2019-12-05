@@ -82,7 +82,7 @@ public class Block{
         System.out.println("amount:"+amo);
         //signature TO TRZEBA ZMIENIC W PRZYSZLOSCI
         i = block.indexOf("<SIGNATURE>{",i)+12;
-        sig = block.substring(i,i+256);
+        sig = block.substring(i,i+64);
         System.out.println("signature:"+sig);
 
         list.add(new Transaction(send, rec, Double.parseDouble(amo), sig));

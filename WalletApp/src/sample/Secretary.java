@@ -51,6 +51,7 @@ public class Secretary extends Thread {
     }
 
     public void sendBlock(Block block){
+        System.out.println("DEBUG: in send block");
         String msg = "Block|";
         msg += block.toString();
         netContainer.sendToAll(msg);
@@ -92,7 +93,6 @@ public class Secretary extends Thread {
                     }
                     initializeDigging();
                     economy.balance = economy.getBlockchain().GetUserAccountBalance(economy.settings.getPublicKeyString());
-                    Main.refreshMoneyLabel();
                 }
                 else {
                     try {
@@ -150,7 +150,6 @@ public class Secretary extends Thread {
         System.out.println("DEBUG: Ready or not, loading blockchain");
         economy.initializeBlockchain();
         economy.balance = economy.getBlockchain().GetUserAccountBalance(economy.settings.getPublicKeyString());
-        Main.refreshMoneyLabel();
         if(economy.settings.isDig()) {
             initializeDigging();
         }

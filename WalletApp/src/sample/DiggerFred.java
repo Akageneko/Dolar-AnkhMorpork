@@ -15,8 +15,8 @@ public class DiggerFred{
             @Override
             public void run() {
                 System.out.println("DEBUG: in worker digger");
-                //long nonce = GeneratorConector.Mine(block.toString(),numberOfZeros);
-                //block.SetNonce(""+nonce);
+                long nonce = GeneratoValidator.Mine(block.toString(),numberOfZeros);
+                block.SetNonce(""+nonce);
                 System.out.println("DEBUG: Mined, sending");
                 sendMinedBlock(block);
                 System.out.println("DEBUG: sent, quitting");
@@ -33,6 +33,8 @@ public class DiggerFred{
 
     public void sendMinedBlock(Block block){
         secretary.sendBlock(block);
+        secretary.economy.getBlockchain().AddBlockToChain(block);
+        secretary.economy.balance = secretary.economy.getBlockchain().GetUserAccountBalance(secretary.economy.settings.getPublicKeyString());
     }
 
 }

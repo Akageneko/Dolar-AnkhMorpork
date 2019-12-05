@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -42,13 +43,20 @@ public class ControllerWallet extends PersonalizedController {
         labelPublicKey.setText(settings.getPublicKey().getAbsolutePath());
         labelPrivateKey.setText(settings.getPrivateKey().getAbsolutePath());
         labelWalletAddress.setText(settings.getPublicKeyString());
-        labelMoney.setText(Main.refreshMoneyLabel());
+        labelMoney.setText(""+0.0);
         if(settings.isDig()){
             labelDiggingActive.setText("TAK");
         }
         else{
             labelDiggingActive.setText("NIE");
         }
+        AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long l) {
+                labelMoney.setText(""+Main.economy.balance);
+            }
+        };
+        timer.start();
     }
 
     @Override
@@ -74,7 +82,6 @@ public class ControllerWallet extends PersonalizedController {
             //pokaż okno dialogowe, że się udało
             fieldAmount.setText("");
             fieldReceiver.setText("");
-            labelMoney.setText(Main.refreshMoneyLabel());
             Alert info = new Alert(Alert.AlertType.INFORMATION);
             info.setTitle("Trzos na Dolary");
             info.setHeaderText("Transakcję przekazano do potwierdzenia.");
@@ -123,5 +130,9 @@ public class ControllerWallet extends PersonalizedController {
 
     public void button_logout(ActionEvent event) {
         Main.setView("login");
+    }
+
+    public void setMoney(double money){
+        labelMoney.setText(""+money);
     }
 }

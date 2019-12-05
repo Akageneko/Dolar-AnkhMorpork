@@ -52,9 +52,9 @@ public class Main extends Application {
 
     }
 
-    public static String refreshMoneyLabel() {
-        Double balance = economy.balance;
-        return balance.toString();
+    public static void refreshMoneyLabel() {
+        economy.balance = economy.getBlockchain().GetUserAccountBalance(settings.getPublicKeyString());
+        ((ControllerWallet)controllers.get("wallet")).setMoney(economy.balance);
     }
 
 
@@ -80,13 +80,18 @@ public class Main extends Application {
     }
     public static String hashPassword(String plaintext) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
-        byte[] hashedBytes = md.digest(plaintext.getBytes());
-        BigInteger numerical = new BigInteger(1,hashedBytes);
-        StringBuilder hexString = new StringBuilder(numerical.toString(16));
-        while(hexString.length()<32){
-            hexString.insert(0,'0');
+        byte[] encodedhash = md.digest(plaintext.getBytes());
+        StringBuffer hexString = new StringBuffer();
+        for (int i = 0; i < encodedhash.length; i++) {
+            String hex = Integer.toHexString(0xff & encodedhash[i]);
+            if(hex.length() == 1) hexString.append('0');
+            hexString.append(hex);
         }
-        return hexString.toString();
+        String hashHex = hexString.toString();
+        while(hashHex.length() <64){
+            hashHex = "0" + hashHex;
+        }
+        return hashHex;
     }
 
     private boolean newUser() {
