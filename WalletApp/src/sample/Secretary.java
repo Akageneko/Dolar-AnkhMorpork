@@ -88,7 +88,7 @@ public class Secretary extends Thread {
                 //zweryfikuj blok
                 //dodaj blok do blockchaina
                 Block incoming = new Block(msg.split("\\|")[1]);
-                if(ValidatorConector.Validate(incoming.toString(),5)) {
+                if(GeneratoValidator.Validate(incoming.toString(),5)) {
                     economy.getBlockchain().AddBlockToChain(incoming);
                     for(Transaction t : incoming.getTransactions()){
                         economy.transactions.remove(t);

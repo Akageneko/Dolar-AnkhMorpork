@@ -8,6 +8,7 @@ import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
 public class ControllerWallet extends PersonalizedController {
 
@@ -86,6 +87,8 @@ public class ControllerWallet extends PersonalizedController {
             info.setTitle("Trzos na Dolary");
             info.setHeaderText("Transakcję przekazano do potwierdzenia.");
             info.show();
+            ArrayList<Transaction> economyTransactions = Main.economy.transactions;
+            Main.secretary.sendTransaction(economyTransactions.get(economyTransactions.size()-1));
         }
         else{
             labelNotEnoughMoney.setVisible(true);
