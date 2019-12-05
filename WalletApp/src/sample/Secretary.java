@@ -66,11 +66,12 @@ public class Secretary extends Thread {
     }
 
     private void serveMessage(String msg) throws NoSuchAlgorithmException {
-        String msgType = msg.split("|")[0];
+        String msgType = msg.split("\\|")[0];
+        System.out.println("DEBUG: Received type - " + msgType);
         switch(msgType){
             case "Hello":{
                 //wyciągnij id z IP
-                int id = Integer.parseInt((msg.split("|")[1]).split(".")[3]);
+                int id = Integer.parseInt((msg.split("\\|")[1]).split(".")[3]);
                 //wyślij swój blockChain
                 String respond = "BlockChain|";
                 respond += economy.getBlockchain().toString();
@@ -79,13 +80,13 @@ public class Secretary extends Thread {
             }
             case "Transaction":{
                 //dodaj do listy oczekujących transakcji
-                economy.getTransactions().add(new Transaction(msg.split("|")[1]));
+                economy.getTransactions().add(new Transaction(msg.split("\\|")[1]));
                 break;
             }
             case "Block":{
                 //zweryfikuj blok
                 //dodaj blok do blockchaina
-                Block incoming = new Block(msg.split("|")[1]);
+                Block incoming = new Block(msg.split("\\|")[1]);
                 if(ValidatorConector.Validate(incoming.toString(),5)) {
                     economy.getBlockchain().AddBlockToChain(incoming);
                     for(Transaction t : incoming.getTransactions()){
@@ -104,7 +105,7 @@ public class Secretary extends Thread {
                 break;
             }
             case "LiberumVeto":{
-                String suspectedHash = msg.split("|")[1];
+                String suspectedHash = msg.split("\\|")[1];
                 if (economy.getBlockchain().getLatestHash().equals(suspectedHash)) {
                     diggerFred.stopDigging();
                     waitForBlockChain();
@@ -133,7 +134,7 @@ public class Secretary extends Thread {
             if(msg!=null) {
                 if (msg.startsWith("BlockChain|")) {
                     System.out.println("DEBUG: received blockchain");
-                    String blockChainContent = msg.split("|")[1];
+                    String blockChainContent = msg.split("\\|")[1];
                     BlockChain.setFileContent(blockChainContent);
                     break;
                 } else {
