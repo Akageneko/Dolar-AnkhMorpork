@@ -91,6 +91,7 @@ public class Secretary extends Thread {
                 if(GeneratoValidator.Validate(incoming.toString(),5)) {
                     economy.getBlockchain().AddBlockToChain(incoming);
                     for(Transaction t : incoming.getTransactions()){
+
                         economy.transactions.remove(t);
                     }
                     initializeDigging();
